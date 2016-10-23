@@ -42,6 +42,19 @@ app.get('/reg/:user', function (req, res) {
 
 });
 
+app.get('/msgs/:user', function(req, res) {
+
+  var user_name = req.params.user;
+
+  var profile = require('./watson_data_' + user_name + '.json');
+
+  var msgs = require('./get_messages')(profile);
+
+  res
+    .json(msgs);
+
+});
+
 var server = app.listen(process.env.PORT || 3000);
 
 server.timeout = 100000;

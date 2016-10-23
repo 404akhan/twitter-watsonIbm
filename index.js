@@ -7,10 +7,41 @@ app.get('/', function (req, res) {
 });
 
 app.get('/:user', function (req, res) {
-  var user = require('./formatted_' + req.params.user + '.json');
+  try {
+    var user = require('./formatted_' + req.params.user + '.json');
 
-  res
-    .json(user);
+    res
+      .json(user);
+  } catch(e) {
+    res
+      .json({error: "error"});
+  }
 });
 
-app.listen(process.env.PORT || 3000);
+app.get('/reg/:user', function (req, res) {
+
+  var user_name = req.params.user;
+
+  var twitter_account = require('./twitter_accout');
+
+  var callback = function() {
+
+    try {
+      var user = require('./formatted_' + req.params.user + '.json');
+
+      res
+        .json(user);
+    } catch(e) {
+      res
+        .json({error: "error"});
+    }
+
+  };
+
+  twitter_account(user_name, callback);
+
+});
+
+var server = app.listen(process.env.PORT || 3000);
+
+server.timeout = 100000;

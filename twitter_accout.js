@@ -8,30 +8,41 @@ var client = new Twitter({
   access_token_secret: 'ulcGdSq5jLrTepTualBbERRJNv3XHbzsCyIb4Ta8J6awu'
 });
 
-var params = {screen_name: 'Dranithix', count: 200};
-client.get('statuses/user_timeline', params, function(error, tweets, response) {
+module.exports = function(user_name, callback) {
 
-  if (!error) {
+  // console.log('twitter');
 
-    var profile = {contentItems: []};
+  var watson_data = require('./watson_data');
 
-    tweets.forEach(function (tweet) {
+  var params = {screen_name: user_name, count: 200};
 
-      var time = new Date(tweet.created_at).getTime();
-      var id = tweet.id.toString();
+  client.get('statuses/user_timeline', params, function (error, tweets, response) {
 
-      var new_tweet = {
-        "content": tweet.text,
-        "contenttype": "text/plain",
-        "created": time,
-        "id": id,
-        "language": "en"
-      };
+    if (!error) {
 
-      profile.contentItems.push(new_tweet);
+      var profile = {contentItems: []};
 
-    });
+      tweets.forEach(function (tweet) {
 
-    fs.writeFileSync('./profile_' + params.screen_name + '.json', JSON.stringify(profile, null, 2) , 'utf-8');
-  }
-});
+        var time = new Date(tweet.created_at).getTime();
+        var id = tweet.id.toString();
+
+        var new_tweet = {
+          "content": tweet.text,
+          "contenttype": "text/plain",
+          "created": time,
+          "id": id,
+          "language": "en"
+        };
+
+        profile.contentItems.push(new_tweet);
+
+      });
+
+      fs.writeFileSync('./profile_' + params.screen_name + '.json', JSON.stringify(profile, null, 2), 'utf-8');
+
+      // console.log('twitter');
+      watson_data(user_name, callback);
+    }
+  });
+};

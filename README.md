@@ -13,7 +13,6 @@ if user was not registered use this request
 	2.3) save json file about user (cashing), to use (1) request in the future
 
 
-----
 
 URL
 

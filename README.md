@@ -22,4 +22,4 @@ https://watson-seamless.herokuapp.com
 EXAMPLES
 
 https://watson-seamless.herokuapp.com/realDonaldTrump
-https://watson-seamless.herokuapp.com/Dranithix
+
